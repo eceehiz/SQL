@@ -1,5 +1,5 @@
--------------VİEW------------
---Sanal tablo oluşturma. metot mantığı
+-------------VÄ°EW------------
+--Sanal tablo oluÅŸturma. metot mantÄ±ÄŸÄ±
 
 create view urunListesi
 as
@@ -15,23 +15,23 @@ left join Tedarikciler t on t.TedarikciID=u.TedarikciID
 go
 
 select * from urunListesi
---view her çağrıldığında sorgu çalışır. ama oluşturulurken bir kez derlenir
+--view her Ã§aÄŸrÄ±ldÄ±ÄŸÄ±nda sorgu Ã§alÄ±ÅŸÄ±r. ama oluÅŸturulurken bir kez derlenir
 
---personelsatış viewi oluştıralım. hangi personel ne kadar satış yapmış
+--personelsatÄ±ÅŸ viewi oluÅŸtÄ±ralÄ±m. hangi personel ne kadar satÄ±ÅŸ yapmÄ±ÅŸ
 go
 create view PersonelSatisRaporu
 as
-select p.Adi, u.UrunAdi, sum(sd.BirimFiyati*sd.Miktar*(1-sd.İndirim)) as ToplamTutar from Satislar s
+select p.Adi, u.UrunAdi, sum(sd.BirimFiyati*sd.Miktar*(1-sd.Ä°ndirim)) as ToplamTutar from Satislar s
 left join Personeller p on p.PersonelID=s.PersonelID
 left join [Satis Detaylari] sd on sd.SatisID=s.SatisID
 left join Urunler u on u.UrunID=sd.UrunID
 group by p.Adi, u.UrunAdi
 
---hangi ürün hangi müşteriye toplam ne kadar satılmıştır, musteriUrunRaporu viewi
+--hangi Ã¼rÃ¼n hangi mÃ¼ÅŸteriye toplam ne kadar satÄ±lmÄ±ÅŸtÄ±r, musteriUrunRaporu viewi
 go
 create view musteriUrunRaporu
 as
-select  u.UrunAdi, m.MusteriAdi, sum(sd.BirimFiyati*sd.Miktar*(1-sd.İndirim)) as ToplamTutar from Musteriler m
+select  u.UrunAdi, m.MusteriAdi, sum(sd.BirimFiyati*sd.Miktar*(1-sd.Ä°ndirim)) as ToplamTutar from Musteriler m
 left join Satislar s on m.MusteriID=s.MusteriID
 left join [Satis Detaylari] sd on sd.SatisID=s.SatisID
 left join Urunler u on u.UrunID=sd.UrunID
@@ -42,19 +42,19 @@ select * from musteriUrunRaporu
 
 go
 alter view musteriUrunRaporu1
-with encryption  --kendin bir yerde sakladıktan sonra koda ulaşılmasın istiyorsan ekle
+with encryption  --kendin bir yerde sakladÄ±ktan sonra koda ulaÅŸÄ±lmasÄ±n istiyorsan ekle
 as
-select  u.UrunAdi, m.MusteriAdi, sum(sd.BirimFiyati*sd.Miktar*(1-sd.İndirim)) as ToplamTutar, count(u.UrunAdi) Adet from Musteriler m
+select  u.UrunAdi, m.MusteriAdi, sum(sd.BirimFiyati*sd.Miktar*(1-sd.Ä°ndirim)) as ToplamTutar, count(u.UrunAdi) Adet from Musteriler m
 left join Satislar s on m.MusteriID=s.MusteriID
 left join [Satis Detaylari] sd on sd.SatisID=s.SatisID
 left join Urunler u on u.UrunID=sd.UrunID
 group by u.UrunAdi, m.MusteriAdi
 
---hangi nakliyeci hangi ürünü hangi müşteriye adet ve toplam olarak ne satmıştır. nakliyeciRaporu
+--hangi nakliyeci hangi Ã¼rÃ¼nÃ¼ hangi mÃ¼ÅŸteriye adet ve toplam olarak ne satmÄ±ÅŸtÄ±r. nakliyeciRaporu
 go
 create view nakliyeciRaporu
 as
-select n.SirketAdi, u.UrunAdi, m.MusteriAdi, sum(sd.BirimFiyati*sd.Miktar*(1-sd.İndirim)) as ToplamTutar,count(u.UrunAdi) as Adet from Nakliyeciler n
+select n.SirketAdi, u.UrunAdi, m.MusteriAdi, sum(sd.BirimFiyati*sd.Miktar*(1-sd.Ä°ndirim)) as ToplamTutar,count(u.UrunAdi) as Adet from Nakliyeciler n
 left join Satislar s on n.NakliyeciID=s.ShipVia
 left join [Satis Detaylari] sd on sd.SatisID=s.SatisID
 left join Musteriler m on m.MusteriID=s.MusteriID
