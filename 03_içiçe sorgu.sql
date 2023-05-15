@@ -1,37 +1,37 @@
 --  Altsorgular
 --Birinci Tip
--- select ile from arasına yazılan  istenilen sütunu getirmek için alt sorgu kullanılır.
---her bir istenen sütun için bir alt sorgu yazmak gerekir
+-- select ile from arasÃ½na yazÃ½lan  istenilen sÃ¼tunu getirmek iÃ§in alt sorgu kullanÃ½lÃ½r.
+--her bir istenen sÃ¼tun iÃ§in bir alt sorgu yazmak gerekir
 
---İkinci Tip
-/* where den sonra istenilen filtrelemeyi yapmak için kullanılır
-herbir filtre için yeni bir alt sorgu yazılır
+--Ãkinci Tip
+/* where den sonra istenilen filtrelemeyi yapmak iÃ§in kullanÃ½lÃ½r
+herbir filtre iÃ§in yeni bir alt sorgu yazÃ½lÃ½r
 */
 
 select UrunAdi, (select KategoriAdi from Kategoriler where KategoriID=Urunler.KategoriID)  from Urunler
 
 select UrunAdi, (select SirketAdi from Tedarikciler where TedarikciID=Urunler.TedarikciID) from Urunler
 
---satışlar tablosunu müşteri adı ünvanı personel adı soyadı ile yazın
+--satÃ½Ã¾lar tablosunu mÃ¼Ã¾teri adÃ½ Ã¼nvanÃ½ personel adÃ½ soyadÃ½ ile yazÃ½n
 
 select (select MusteriAdi from Musteriler where MusteriID=Satislar.MusteriID) as musteriAdi, (select MusteriUnvani from Musteriler where MusteriID=Satislar.MusteriID) as musteriUnvani,
 (select Adi from Personeller where PersonelID= Satislar.PersonelID) as personelAdi , (select SoyAdi from Personeller where PersonelID= Satislar.PersonelID) as personelSoyadi from Satislar
 
---ürünler tablosu ile birlikte her bir ürünün toplam satış adedini getir
+--Ã¼rÃ¼nler tablosu ile birlikte her bir Ã¼rÃ¼nÃ¼n toplam satÃ½Ã¾ adedini getir
 
 select u.UrunAdi , (select sum(sd.BirimFiyati*sd.Miktar) from [Satis Detaylari] sd where  u.UrunID=sd.UrunID ) as toplamsatistutar from Urunler u
 
 select u.UrunAdi , (select sum(Miktar) from [Satis Detaylari] sd where  u.UrunID=sd.UrunID ) as toplamsatisadedi from Urunler u
 
---satişlardaki nakliyeciler
+--satiÃ¾lardaki nakliyeciler
 select s.ShipVia , (select SirketAdi from Nakliyeciler n where s.ShipVia=n.NakliyeciID) from Satislar s
 group by s.ShipVia
 
---her bir ürün en fazla kaça satılmıştır
-select u.UrunAdi , (select max(sd.BirimFiyati) from [Satis Detaylari] sd where sd.UrunID=u.UrunID ) as enpahalıürün from Urunler u
+--her bir Ã¼rÃ¼n en fazla kaÃ§a satÃ½lmÃ½Ã¾tÃ½r
+select u.UrunAdi , (select max(sd.BirimFiyati) from [Satis Detaylari] sd where sd.UrunID=u.UrunID ) as enpahalÃ½Ã¼rÃ¼n from Urunler u
 order by 2 desc
 
---satışlardaki satış id ile satış detaylarındaki en yüksek birim fiyatı bulma ve en yüksek ürün id sini bulma
+--satÃ½Ã¾lardaki satÃ½Ã¾ id ile satÃ½Ã¾ detaylarÃ½ndaki en yÃ¼ksek birim fiyatÃ½ bulma ve en yÃ¼ksek Ã¼rÃ¼n id sini bulma
 select (select Urunadi from Urunler where UrunID=(select max(UrunID) from [Satis Detaylari] SD where sd.SatisID=s.SatisID)) ,
 (select max(sd.BirimFiyati) from [Satis Detaylari] SD where sd.SatisID=s.SatisID), * from Satislar S
 
@@ -44,40 +44,40 @@ select max(UrunID) from [Satis Detaylari] SD where sd.SatisID=10250
 
 --------------------------------------------------------------------------------------------------
 
---kategori id si 1 olan ürünü getir
+--kategori id si 1 olan Ã¼rÃ¼nÃ¼ getir
 select * from Urunler
 where KategoriID=(select KategoriID from Kategoriler where KategoriAdi='Beverages')
 
---Tedarikçisi Karkki Oy olan ürünleri getir
+--TedarikÃ§isi Karkki Oy olan Ã¼rÃ¼nleri getir
 select * from Urunler
 where TedarikciID=(select TedarikciID from Tedarikciler where SirketAdi='Karkki Oy')
 
---adı robert olan personelin yaptığı satışlar 
+--adÃ½ robert olan personelin yaptÃ½Ã°Ã½ satÃ½Ã¾lar 
 select * from Satislar
 where PersonelID=(select PersonelID from Personeller where Adi='Robert')
 
- --nancy veya Janetın yaptığı satışlar
+ --nancy veya JanetÃ½n yaptÃ½Ã°Ã½ satÃ½Ã¾lar
 select * from Satislar
 where PersonelID in (select PersonelID from Personeller where Adi = 'Nancy' or Adi='Janet')
 
---chai toplamda kaç defa satılmış --UrunAdi='Chai'
+--chai toplamda kaÃ§ defa satÃ½lmÃ½Ã¾ --UrunAdi='Chai'
 select * from [Satis Detaylari] sd
 where UrunID=(select UrunID from Urunler where UrunAdi='Chai')
 
---personel adı Nancy veya Janet olan, nakliyecisi speedy express olan satışlar
+--personel adÃ½ Nancy veya Janet olan, nakliyecisi speedy express olan satÃ½Ã¾lar
 select * from Satislar
 where PersonelID in (select PersonelID from Personeller where Adi='Nancy' or Adi='Janet') and
 ShipVia=(select NakliyeciID from Nakliyeciler where SirketAdi='Speedy Express')
 
---1997 yılında yapılan satışlarda ne kadar ciro edildiğini
-select sum(sd.BirimFiyati*sd.Miktar*(1-sd.İndirim)) from [Satis Detaylari] sd
+--1997 yÃ½lÃ½nda yapÃ½lan satÃ½Ã¾larda ne kadar ciro edildiÃ°ini
+select sum(sd.BirimFiyati*sd.Miktar*(1-sd.Ãndirim)) from [Satis Detaylari] sd
 where sd.SatisID in (select s.SatisID from Satislar s where s.SatisTarihi between '1997-01-01' and '1997-12-31' )
 
---Alfkı müşterisine yapılan toplam satış kaç tane ve fiyat ne
+--AlfkÃ½ mÃ¼Ã¾terisine yapÃ½lan toplam satÃ½Ã¾ kaÃ§ tane ve fiyat ne
 select count(*), sum(BirimFiyati*Miktar*(1-indirim)) from [Satis Detaylari]
-where SatisID in (select SatisID from Satislar where MusteriID='Alfkı')
+where SatisID in (select SatisID from Satislar where MusteriID='AlfkÃ½')
 
---speedy express isimli nakliyeci bugüne kadar kaç adet ürün taşıdı
+--speedy express isimli nakliyeci bugÃ¼ne kadar kaÃ§ adet Ã¼rÃ¼n taÃ¾Ã½dÃ½
 select sum(Miktar) from [Satis Detaylari] 
 where SatisID in(select SatisID from Satislar 
 where ShipVia=(select NakliyeciID from Nakliyeciler where SirketAdi='Speedy Express'))
