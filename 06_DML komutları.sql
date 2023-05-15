@@ -1,7 +1,7 @@
 ---------------------DML KOMUTLARI---------------------------
 
 /*
-INSERT: Bir tabloya kayıt eklemeyi sağlayan komut
+INSERT: Bir tabloya kayÄ±t eklemeyi saÄŸlayan komut
 Insert [into] TabloAdi (kolon)
 Values (degerler)
 */
@@ -10,20 +10,20 @@ INSERT INTO Urunler (UrunAdi, BirimFiyati, HedefStokDuzeyi)
 VALUES('Elma', 2,30)
 
 INSERT INTO Kategoriler (KategoriAdi, Tanimi)
-VALUES('Baharatlar','Yörsel lezzetler')
+VALUES('Baharatlar','YÃ¶rsel lezzetler')
 
 select * from Personeller
 INSERT INTO Personeller (SoyAdi,Adi,Unvan, UnvanEki, DogumTarihi)
-VALUES('Çalışkan','Doğan','Yönetici Asistanı', 'Ms.', '1963-07-18')
+VALUES('Ã‡alÄ±ÅŸkan','DoÄŸan','YÃ¶netici AsistanÄ±', 'Ms.', '1963-07-18')
 
 /*
-UPDATE: Belli kayıtları güncellemeyi sağlayan komut
+UPDATE: Belli kayÄ±tlarÄ± gÃ¼ncellemeyi saÄŸlayan komut
 Update TabloAdi 
 Set kolon=deger
 */
 
---Güvenmediğin kodları begin tran ile rollback tran arasına yaz. bu şekilde geri dönüştürebilirsin. 
---begin tran ile update cümlesini birlikte seçerek çalıştır. geri almak için rollbacki tek çalıştır
+--GÃ¼venmediÄŸin kodlarÄ± begin tran ile rollback tran arasÄ±na yaz. bu ÅŸekilde geri dÃ¶nÃ¼ÅŸtÃ¼rebilirsin. 
+--begin tran ile update cÃ¼mlesini birlikte seÃ§erek Ã§alÄ±ÅŸtÄ±r. geri almak iÃ§in rollbacki tek Ã§alÄ±ÅŸtÄ±r
 begin tran
 update Urunler
 set BirimFiyati=15
@@ -39,14 +39,14 @@ set HedefStokDuzeyi=6
 where TedarikciID=3
 rollback tran
 
---kategori ıd si 2 olan ürünlerin stok adedini 5 arttır
+--kategori Ä±d si 2 olan Ã¼rÃ¼nlerin stok adedini 5 arttÄ±r
 begin tran
 update Urunler
 set HedefStokDuzeyi=HedefStokDuzeyi+5
 where KategoriID=2
 rollback tran
 
---Adı Robert olan personelin müşteriye yaptığı satışlara %5 indirim 
+--AdÄ± Robert olan personelin mÃ¼ÅŸteriye yaptÄ±ÄŸÄ± satÄ±ÅŸlara %5 indirim 
 begin tran
 update [Satis Detaylari] 
 set BirimFiyati=BirimFiyati*0.95
@@ -58,9 +58,9 @@ where p.Adi='Robert')
 rollback tran
 
 /*
-DELETE: Belli kayıtları silmeyi sağlayan komut
+DELETE: Belli kayÄ±tlarÄ± silmeyi saÄŸlayan komut
 Delete [from] TabloAdi 
-Where şart
+Where ÅŸart
 */
 
 begin tran
@@ -69,7 +69,7 @@ where NakliyeciID=1
 rollback tran
 
 /*
-bir tabloda o değer varsa eklemesin: 
+bir tabloda o deÄŸer varsa eklemesin: 
 
 if exists (select * from Urunler where UrunAdi='incir')
 		begin
@@ -81,11 +81,11 @@ if exists (select * from Urunler where UrunAdi='incir')
 		end
 */
 
---ürünler tablosuna yeni bir ürün ekleyip o ürünün fiyatını ve stoğunu güncelleyip sonrafa o ürünü silen sorguları yazınız
+--Ã¼rÃ¼nler tablosuna yeni bir Ã¼rÃ¼n ekleyip o Ã¼rÃ¼nÃ¼n fiyatÄ±nÄ± ve stoÄŸunu gÃ¼ncelleyip sonrafa o Ã¼rÃ¼nÃ¼ silen sorgularÄ± yazÄ±nÄ±z
 
 select * from Urunler
 insert into Urunler (UrunAdi,BirimFiyati,HedefStokDuzeyi)
-values ('Çilek', 30, 10)
+values ('Ã‡ilek', 30, 10)
 
 update Urunler
 set BirimFiyati=40, HedefStokDuzeyi=5
@@ -95,13 +95,13 @@ begin tran
 delete from Urunler
 where UrunID=(select top 1 UrunID from Urunler order by UrunID desc)
 
---Aynı soruyu değişken oluşturarak yapalım
+--AynÄ± soruyu deÄŸiÅŸken oluÅŸturarak yapalÄ±m
 
---Değişken oluşturma:
+--DeÄŸiÅŸken oluÅŸturma:
 declare @temp int 
 set @temp=6
 
---En son girilen satırın id sini alır.
+--En son girilen satÄ±rÄ±n id sini alÄ±r.
 scope_identity()
 
 insert into Urunler(UrunAdi)
