@@ -4,24 +4,24 @@ where u.KategoriID=k.KategoriID
 select u.UrunAdi,t.SirketAdi from Tedarikciler t, Urunler u
 where t.TedarikciID=u.TedarikciID
 
---hangi müşteriye hangi satış satılmış
+--hangi mÃ¼Ã¾teriye hangi satÃ½Ã¾ satÃ½lmÃ½Ã¾
 select * from Musteriler m , Satislar s
 where m.MusteriID=s.MusteriID
 
---ürünler, kategoriler, tedarikçiler tablosunu birleştir
+--Ã¼rÃ¼nler, kategoriler, tedarikÃ§iler tablosunu birleÃ¾tir
 select * from Urunler u , Kategoriler k, Tedarikciler t
 where u.KategoriID=k.KategoriID and  t.TedarikciID=u.TedarikciID
 
---hangi müşteri hangi ürünü almış
-select m.MusteriAdi, u.UrunAdi,  sum(sd.Miktar) as miktar, sum(sd.BirimFiyati*sd.Miktar*(1-sd.İndirim)) as fiyat  from Urunler u, Satislar s, [Satis Detaylari] sd, Musteriler m
+--hangi mÃ¼Ã¾teri hangi Ã¼rÃ¼nÃ¼ almÃ½Ã¾
+select m.MusteriAdi, u.UrunAdi,  sum(sd.Miktar) as miktar, sum(sd.BirimFiyati*sd.Miktar*(1-sd.Ãndirim)) as fiyat  from Urunler u, Satislar s, [Satis Detaylari] sd, Musteriler m
 where u.UrunID=sd.UrunID and sd.SatisID=s.SatisID and s.MusteriID=m.MusteriID 
 group by u.UrunAdi, m.MusteriAdi
 
-select m.MusteriAdi, u.UrunAdi,  sum(sd.Miktar) as miktar, sum(sd.BirimFiyati*sd.Miktar*(1-sd.İndirim)) as fiyat  from Urunler u, Satislar s, [Satis Detaylari] sd, Musteriler m
+select m.MusteriAdi, u.UrunAdi,  sum(sd.Miktar) as miktar, sum(sd.BirimFiyati*sd.Miktar*(1-sd.Ãndirim)) as fiyat  from Urunler u, Satislar s, [Satis Detaylari] sd, Musteriler m
 where u.UrunID=sd.UrunID and sd.SatisID=s.SatisID and s.MusteriID=m.MusteriID and m.MusteriAdi='Alexander Feuer'
 group by u.UrunAdi, m.MusteriAdi
 
---hangi personel hangi şirkete hangi ürünü kaç kere satmıştır
+--hangi personel hangi Ã¾irkete hangi Ã¼rÃ¼nÃ¼ kaÃ§ kere satmÃ½Ã¾tÃ½r
 select p.Adi+' ' + p.SoyAdi as PersonelAdi, m.SirketAdi, count(s.SatisID) as SatisAdet, sum(sd.Miktar) as ToplamMiktar, sd.UrunID, u.UrunAdi
 from Personeller p, Satislar s, Musteriler m, [Satis Detaylari] sd, Urunler u
 where p.PersonelID=s.PersonelID and s.MusteriID=m.MusteriID and sd.SatisID=s.SatisID and u.UrunID=sd.UrunID
@@ -37,7 +37,7 @@ select * from Urunler u
 join Kategoriler k on u.KategoriID=k.KategoriID
 join Tedarikciler t on u.TedarikciID=t.TedarikciID
 
---personel satışlar müşteriler vb. tablosunu bağla
+--personel satÃ½Ã¾lar mÃ¼Ã¾teriler vb. tablosunu baÃ°la
 select m.MusteriAdi, u.UrunAdi, p.Adi, k.KategoriAdi, t.TedarikciID from Satislar s
 join Musteriler m on s.MusteriID=m.MusteriID
 join Personeller p on p.PersonelID=s.PersonelID
@@ -46,8 +46,8 @@ join Urunler u on u.UrunID=sd.UrunID
 join Kategoriler k on k.KategoriID=u.KategoriID
 join Tedarikciler t on t.TedarikciID=u.TedarikciID
 
---hangi personel hangi üründen toplam kaç dolarlık satış yaptığını ekrana yaz
-select p.Adi, u.UrunAdi,  Round(sum(sd.BirimFiyati*sd.Miktar*(1-sd.İndirim)),2) ToplamFiyat from Personeller p
+--hangi personel hangi Ã¼rÃ¼nden toplam kaÃ§ dolarlÃ½k satÃ½Ã¾ yaptÃ½Ã°Ã½nÃ½ ekrana yaz
+select p.Adi, u.UrunAdi,  Round(sum(sd.BirimFiyati*sd.Miktar*(1-sd.Ãndirim)),2) ToplamFiyat from Personeller p
 join Satislar s on p.PersonelID=s.PersonelID
 join [Satis Detaylari] sd on sd.SatisID=s.SatisID
 join Urunler u on u.UrunID=sd.UrunID
