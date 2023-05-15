@@ -1,8 +1,8 @@
 ---------------------DDL KOMUTLARI---------------------------
 /*
-Create: Yeni veritabanı, view, procedure trigger functions oluşturmak için kullanılır.
-Alter: Veritabanı, view, procedure trigger functions tekrar düzenlemek için kullanılır.
-Drop: Veritabanı, view, procedure trigger functions kaldırmak için kullanılır.
+Create: Yeni veritabanÄ±, view, procedure trigger functions oluÅŸturmak iÃ§in kullanÄ±lÄ±r.
+Alter: VeritabanÄ±, view, procedure trigger functions tekrar dÃ¼zenlemek iÃ§in kullanÄ±lÄ±r.
+Drop: VeritabanÄ±, view, procedure trigger functions kaldÄ±rmak iÃ§in kullanÄ±lÄ±r.
 */
 
 create table Kisiler (  
@@ -19,7 +19,7 @@ Miktar int,
 BirimFiyati float
 )
 
-alter table Kisiler   --kisiler tablosu güncellendi, Adi kolonu silndi
+alter table Kisiler   --kisiler tablosu gÃ¼ncellendi, Adi kolonu silndi
 drop column Adi
 
 drop table Kisiler --kisiler tablosu silindi
