@@ -1,26 +1,26 @@
---5 ile 11 arasýndaki
+--5 ile 11 arasÃ½ndaki
 select * from Urunler
 where UrunID>5 and UrunID<11
 
 select * from Urunler
 where UrunID between 5 and 11
 
---birim fiyatý 15-75 arasý
+--birim fiyatÃ½ 15-75 arasÃ½
 select * from Urunler
 where BirimFiyati between 15 and 75
 
---ilk 10 ürün 
+--ilk 10 Ã¼rÃ¼n 
 select top 10 * from Urunler
 
 select top 3 * from Urunler
 where UrunAdi like 'c%[a,n]_' and BirimFiyati between 15 and 75
 
---kategori id si 5 olmayan ürün adýnýn ikinci harfi i olan ürünleri stoklarýna göre tersten 
+--kategori id si 5 olmayan Ã¼rÃ¼n adÃ½nÃ½n ikinci harfi i olan Ã¼rÃ¼nleri stoklarÃ½na gÃ¶re tersten 
 select * from Urunler
 where KategoriID!=5 and UrunAdi like '_i%'
 order by HedefStokDuzeyi desc
 
---ürün id si 5,14,17,25,34 olmayan ürünler
+--Ã¼rÃ¼n id si 5,14,17,25,34 olmayan Ã¼rÃ¼nler
 select * from Urunler
 where UrunID not in (5,14,17,25,34)
 
@@ -28,11 +28,11 @@ where UrunID not in (5,14,17,25,34)
 select * from Urunler
 where KategoriID in (2,3,4)
 
---içinde c ve a harfi geçmeyen ürün isimleri
+--iÃ§inde c ve a harfi geÃ§meyen Ã¼rÃ¼n isimleri
 select * from Urunler
 where UrunAdi not like '%[c,a]%'
 
---personel idsi 4 olan ve nakliyeci ücreti 15 ile 45 arasýnda olan sevk tarihine göre tersten son 3 kaydý getiren satýþlarý
+--personel idsi 4 olan ve nakliyeci Ã¼creti 15 ile 45 arasÃ½nda olan sevk tarihine gÃ¶re tersten son 3 kaydÃ½ getiren satÃ½Ã¾larÃ½
 select top 3 * from Satislar
 where PersonelID=4  and NakliyeUcreti between 15 and 45
 order by SevkTarihi desc
